@@ -1,30 +1,26 @@
-import { test, expect } from '@playwright/test';
+// CONTROLLEUR DE TESTS
+
+import { test} from "@playwright/test";
+import {HomePage} from "../pages_objects/go.to.home"; 
+import {Cattegorielutte} from "../pages_objects/categorie.lutte";
 
 
-async function goToHomePageAndAcceptCookies(page) {
-  await page.goto('https://www.decathlon.fr/');
-  await page.getByRole('button', { name: 'Accepter & Fermer: Accepter' }).click();
-}
 
+test.beforeEach("GoDecathlon", async ({ page }) => {   
 
-test('categorieLutte', async ({ page }) => {
-  await goToHomePageAndAcceptCookies(page);
-  await page.getByRole('searchbox', { name: 'Rechercher un produit, un' }).click();
-  await page.getByRole('searchbox', { name: 'Rechercher un produit, un' }).fill('lutte');
-  await page.getByRole('searchbox', { name: 'Rechercher un produit, un' }).press('Enter');
-});
-
-
-test('categorieFemme', async ({ page }) => {
-  await goToHomePageAndAcceptCookies(page);
-  await page.getByRole('menuitem', { name: 'Femme' }).click();
-  await page.getByRole('menuitem', { name: 'Se protéger du froid' }).click();
+  // instancie la classe HomePage .
+  //  New HomePage c'est object de la classe HomePage et on le stocke dans la variable homePage
+  const homePage = new HomePage(page);
+  await homePage.goToHomePage();
+  await homePage.acceptCookies();
 
 });
 
 
-test('categorieHomme', async ({ page }) => {
-  await goToHomePageAndAcceptCookies(page);
-  await page.getByRole('menuitem', { name: 'Homme' }).click();
-  await page.getByRole('banner').getByRole('link', { name: 'Chaussures' }).click();
+
+test("categorieLutte", async ({ page }) => {
+
+  const categorieLutte = new Cattegorielutte(page);
+  await categorieLutte.clickLutte();
+  
 });
